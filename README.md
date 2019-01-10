@@ -2,7 +2,7 @@
 
 Ansible plays to deploy a Docker image of Vault, initialise and seed it with an initial set of secrets.
 
-The intent is for this instance of Vault to be the single source of truth for secrets. This instance may be used to seed other Vault instances.
+The intent is for this instance of Vault to be the single source of truth for secrets. This instance may be used to seed other Vault instances in a development environment.
 
 ## Deployment
 ![Deployment](images/deployment-topology.png)
