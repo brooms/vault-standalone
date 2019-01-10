@@ -1,0 +1,15 @@
+{
+  "ui": 1,
+  "api_addr":  "http://{{ vault.host.ip}}:{{ vault.host.port }}",
+  "storage": {
+    "file": {
+      "path": "/vault/data"
+    }
+  },
+  "listener": [{
+    "tcp": {
+      "address": "0.0.0.0:{{ vault.host.port }}",
+      "tls_disable": 1
+    }
+  }]
+}

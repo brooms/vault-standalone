@@ -1,0 +1,7 @@
+vault:
+  image:
+    name: vault
+    tag: 1.0.0
+  host:
+    ip: 127.0.0.1
+    port: 8200

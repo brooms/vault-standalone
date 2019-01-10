@@ -1,0 +1,12 @@
+---
+
+- name: Unseal Vault using the Master Key
+  uri:
+    url: "http://127.0.0.1:8200/v1/sys/unseal"
+    method: POST
+    body: '{"key": "{{ vault_unseal_keys_hex[0] }}"}'
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+    status_code: 200
+  register: vault_unseal_response

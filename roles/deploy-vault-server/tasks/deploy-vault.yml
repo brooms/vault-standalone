@@ -1,0 +1,31 @@
+---
+
+- name: Create vault configuration
+  template:
+    src: config.json.j2
+    dest: "{{ playbook_dir }}/config/config.json"
+
+- name: Launch service container
+  docker_container:
+    name: vault
+    image: "{{ vault.image.name }}:{{ vault.image.tag }}"
+    entrypoint:
+    - vault server -config=/vault/config/config.json
+    capabilities:
+    - IPC_LOCK
+    env:
+      VAULT_ADDR: "http://{{ vault.host.ip }}:{{ vault.host.port }}"
+    published_ports:
+    - "{{ vault.host.port }}:{{ vault.host.port }}"
+    pull: yes
+    recreate: yes
+    restart_policy: always
+    volumes:
+    - "{{ playbook_dir }}/config/config.json:/vault/config/config.json:ro"
+  register: vault_container_launched
+
+- name: Wait for Vault to launch
+  wait_for:
+    port: "{{ vault.host.port }}"
+    delay: 5
+  when: vault_container_launched

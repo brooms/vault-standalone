@@ -1,0 +1,16 @@
+---
+
+- debug:
+    msg: "Deploying Vault Master ..."
+
+- import_tasks: deploy-vault.yml
+  tags:
+    - vault
+
+- import_tasks: initialise-vault.yml
+  tags:
+    - vault
+
+- import_tasks: unseal-vault.yml
+  tags:
+    - vault

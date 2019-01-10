@@ -1,0 +1,8 @@
+---
+
+- debug:
+    msg: "Seeding Vault Master ..."
+
+- import_tasks: store-vault-secrets.yml
+  tags:
+    - vault

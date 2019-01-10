@@ -1,0 +1,11 @@
+
+- name: A play to deploy Vault, initialise and write the keys to a key file before unsealing
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+
+  - import_role:
+      name: deploy-vault-server
+
+  - import_role:
+      name: seed-vault-master

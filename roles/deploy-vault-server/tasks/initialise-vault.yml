@@ -1,0 +1,30 @@
+---
+
+- name: Initialise Vault key set
+  command: "docker exec -t vault sh -c 'vault operator init -key-shares=1 -key-threshold=1 -format json'"
+  register: vault_keys
+  failed_when: "vault_keys.stderr != ''"
+
+- debug: msg="{{ vault_keys.stdout }}"
+
+- name: Set keyfile destination
+  set_fact:
+    key_file_location: "{{ playbook_dir }}/keys/key_file.json"
+
+- name: Write Vault keys to json file
+  copy:
+    content: "{{ vault_keys.stdout }}"
+    dest: "{{ key_file_location }}"
+
+- name: Read Vault key file from remote
+  slurp:
+    src: "{{ key_file_location }}"
+  register: vault_key_file_contents
+
+- name: Load Vault keys from file
+  set_fact:
+    vault_key_file: "{{ vault_key_file_contents['content'] | b64decode }}"
+
+- name: Set Vault key facts
+  set_fact: { "vault_{{ item.key }}":"{{ item.value }}" }
+  with_dict: "{{ vault_key_file }}"
